@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f5f5f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<title>OneCopy (personal)</title>
+<style>
+  /* ── 디자인 토큰 (Apple HIG 방식: 시맨틱 컬러 · 4/8pt 간격 · 타입 스케일) ── */
+  :root{
+    color-scheme:light dark;
+    --bg:#f5f5f7; --card:#ffffff; --fill:#f2f2f7; --code:#f5f5f7;
+    --label:#1d1d1f; --label-2:#555555; --sep:#d2d2d7;
+    --accent:#0071e3; --on-accent:#ffffff;
+    --warn-bg:#fff3cd; --warn-fg:#8a5a00;
+    --tip-bg:#1d1d1f; --tip-fg:#ffffff;
+    --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px;
+    --r-s:8px; --r-m:12px; --r-l:18px;
+    --ease-out:cubic-bezier(.23,1,.32,1);
+    --tap:44px;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{
+      --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --code:#2c2c2e;
+      --label:#f5f5f7; --label-2:#a1a1a6; --sep:#38383a;
+      --accent:#0a84ff;
+      --warn-bg:#3a2e00; --warn-fg:#ffd60a;
+      --tip-bg:#f5f5f7; --tip-fg:#1d1d1f;
+    }
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%}
+  body{
+    margin:0 auto;max-width:1080px;
+    padding:var(--s8) max(var(--s4),env(safe-area-inset-right)) calc(var(--s8) + env(safe-area-inset-bottom)) max(var(--s4),env(safe-area-inset-left));
+    background:var(--bg);color:var(--label);
+    font:400 1rem/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* 타이포: 큰 글자는 자간을 좁게, 본문은 0 */
+  h1{margin:0 0 var(--s4);font-size:2.125rem;line-height:1.1;font-weight:700;letter-spacing:-.02em}
+
+  /* 컨트롤 공통: 최소 44px 터치 영역, 누르는 즉시 피드백 */
+  button,select,input{font:inherit;color:inherit}
+  button{border:0;cursor:pointer;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;
+    transition:transform 100ms var(--ease-out),background-color 100ms var(--ease-out)}
+  button:active{transform:scale(.97)}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  .btn{min-height:var(--tap);padding:0 var(--s5);background:var(--accent);color:var(--on-accent);border-radius:var(--r-m);font-weight:600;font-size:.9375rem}
+  @media (hover:hover) and (pointer:fine){ .btn:hover{filter:brightness(1.08)} }
+
+  /* 알약 필터 */
+  .pills{display:flex;flex-wrap:wrap;gap:var(--s2);margin:0 0 var(--s4)}
+  .pill{min-height:var(--tap);padding:0 var(--s5);background:var(--fill);color:var(--label);border-radius:999px;font-size:.9375rem;font-weight:500}
+  .pill.on{background:var(--label);color:var(--bg)}
+  @media (hover:hover) and (pointer:fine){ .pill:not(.on):hover{background:var(--sep)} }
+
+  /* 검색 */
+  .search{display:flex;gap:var(--s2)}
+  input{flex:1;min-width:0;min-height:var(--tap);padding:0 var(--s4);font-size:1rem;background:var(--card);border:1px solid var(--sep);border-radius:var(--r-m)}
+  input::placeholder{color:var(--label-2)}
+
+  /* 카드 (2열 → 모바일 1열) */
+  #list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3);margin-top:var(--s4)}
+  @media (max-width:700px){ #list{grid-template-columns:1fr} }
+  .card{background:var(--card);border-radius:var(--r-l);padding:var(--s5);box-shadow:0 1px 2px rgba(0,0,0,.04),0 0 0 1px rgba(0,0,0,.04)}
+  @media (prefers-color-scheme:dark){ .card{box-shadow:none} }
+  .labels{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s2)}
+  .card{position:relative}
+  .card.has-gh .labels{padding-right:6.5rem}
+  .gh{position:absolute;top:var(--s4);right:var(--s4);display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 var(--s3);
+    background:var(--fill);color:var(--label);border-radius:999px;font-size:.8125rem;font-weight:500;text-decoration:none;
+    transition:transform 100ms var(--ease-out),background-color 100ms var(--ease-out)}
+  .gh::before{content:"";position:absolute;inset:-6px}
+  .gh:active{transform:scale(.97)}
+  .gh svg{width:14px;height:14px;fill:currentColor}
+  @media (hover:hover) and (pointer:fine){ .gh:hover{background:var(--sep)} }
+  .ver{margin-left:var(--s2);padding:2px var(--s2);background:var(--fill);color:var(--label-2);border-radius:var(--s2);font-size:.75rem;font-weight:500;letter-spacing:0;vertical-align:middle}
+  .ver:empty{display:none}
+  .title{display:block;font-size:1.25rem;line-height:1.2;font-weight:600;letter-spacing:-.01em}
+  .card p{margin:var(--s2) 0 var(--s3);color:var(--label-2);font-size:.9375rem}
+  .tag,.warn{font-size:.75rem;font-weight:500;border-radius:var(--s2);padding:var(--s1) var(--s2)}
+  .tag{background:var(--fill);color:var(--label-2)}
+  .warn{background:var(--warn-bg);color:var(--warn-fg)}
+  .row{display:flex;gap:var(--s2);align-items:center;justify-content:space-between}
+  .tabs{min-width:0;display:inline-flex;gap:2px;padding:2px;background:var(--fill);border-radius:var(--r-m);max-width:100%;overflow-x:auto}
+  .tabs[hidden]{display:none}
+  .tab{min-height:32px;padding:0 var(--s3);background:transparent;color:var(--label-2);border-radius:10px;font-size:.8125rem;font-weight:500;white-space:nowrap}
+  .tab.on{background:var(--card);color:var(--label);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  @media (prefers-color-scheme:dark){ .tab.on{background:var(--sep)} }
+  .copy{margin-left:auto;flex-shrink:0;position:relative;display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 var(--s2);
+    background:transparent;color:var(--label-2);font-size:.8125rem;font-weight:500;border-radius:var(--r-s)}
+  .copy::before{content:"";position:absolute;inset:-6px}
+  .copy svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+  .copy .ic-ok{display:none}
+  .copy.done{color:var(--accent)}
+  .copy.done .ic-copy{display:none}
+  .copy.done .ic-ok{display:inline}
+  @media (hover:hover) and (pointer:fine){ .copy:hover{color:var(--label)} .copy.done:hover{color:var(--accent)} }
+  /* 코드 창: 라이트/다크와 상관없이 항상 어두운 편집기 느낌 */
+  .code{margin-top:var(--s3);background:#0d1117;color:#e6edf3;border-radius:var(--r-m);overflow:hidden;border:1px solid #30363d}
+  .code-bar{display:flex;align-items:center;gap:6px;padding:10px 14px;background:#161b22;border-bottom:1px solid #30363d}
+  .code-bar i{width:10px;height:10px;border-radius:50%;background:#ff5f57}
+  .code-bar i:nth-child(2){background:#febc2e}
+  .code-bar i:nth-child(3){background:#28c840}
+  .code-bar .lang{margin-left:auto;font:.6875rem ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#8b949e;text-transform:uppercase;letter-spacing:.04em}
+  pre{margin:0;padding:var(--s3) var(--s4) var(--s3) 0;overflow:auto;counter-reset:ln;font:.8125rem/1.65 ui-monospace,SFMono-Regular,Menlo,Consolas,"D2Coding",monospace;tab-size:2}
+  .ln{display:block;white-space:pre-wrap;word-break:break-word;padding-left:calc(2.6em + var(--s3));text-indent:-2.6em;counter-increment:ln}
+  .ln::before{content:counter(ln);display:inline-block;width:1.6em;margin-right:1em;text-align:right;color:#6e7681;text-indent:0;user-select:none;-webkit-user-select:none}
+  .t-cmd{color:#7ee787;font-weight:600}.t-sub{color:#79c0ff}.t-flag{color:#ffa657}.t-str{color:#a5d6ff}
+  .t-ph{color:#ff7b72;font-style:italic}.t-key{color:#79c0ff}.t-lit{color:#ffa657}.t-pun{color:#8b949e}.t-op{color:#d2a8ff}
+
+  /* 호버/포커스 설명 말풍선 */
+  [data-tip]{position:relative;cursor:help}
+  [data-tip]::after{content:attr(data-tip);position:absolute;left:0;top:calc(100% + var(--s2));width:min(260px,80vw);z-index:10;
+    background:var(--tip-bg);color:var(--tip-fg);font-size:.8125rem;font-weight:400;line-height:1.5;padding:var(--s3);border-radius:var(--r-m);
+    opacity:0;visibility:hidden;transition:opacity .15s var(--ease-out);pointer-events:none}
+  [data-tip]:hover::after,[data-tip]:focus::after{opacity:1;visibility:visible}
+
+  /* 모션 줄이기 설정: 크기 변화 없이 색/투명도만 */
+  @media (prefers-reduced-motion:reduce){
+    button{transition:background-color 100ms linear}
+    button:active{transform:none}
+    [data-tip]::after{transition:none}
+  }
+</style>
+</head>
+<body>
+<h1>OneCopy</h1>
+<div class="pills" id="pills"></div>
+<form id="sf" class="search"><input id="q" type="search" enterkeyhint="search" autocapitalize="none" autocorrect="off" placeholder="검색 (예: github, 회의)"><button class="btn" type="submit">검색</button></form>
+<div id="list"></div>
+<script>
+let items=[],cur='all',query='';
+const INFO={
+  plugin:['플러그인','Claude Code에 새 기능을 더해 주는 확장 프로그램이에요. 명령어 한 줄로 설치해요.'],
+  mcp:['MCP','AI가 GitHub, Notion 같은 외부 도구를 직접 쓸 수 있게 연결해 주는 다리예요.'],
+  prompt:['프롬프트','AI에게 붙여넣어 쓰는 지시문 틀이에요. 복사해서 대화창에 넣고 [ ] 부분만 바꾸세요.']
+};
+const TYPES=[['all','전체'],['plugin','플러그인'],['mcp','MCP'],['prompt','프롬프트']];
+const $=s=>document.querySelector(s);
+const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const sp=(c,t)=>`<span class="${c}">${t}</span>`;
+function lang(t){return /^\s*[{\[]/.test(t)?'json':/^\s*(\/|claude |npx |uvx |npm |pip |git )/.test(t)?'bash':'text'}
+function hlJson(l){
+  return esc(l).replace(/("[^"]*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?)|([{}\[\],])/g,
+    (m,str,col,lit,num,pun)=>str?(col?sp('t-key',str)+sp('t-pun',col):sp('t-str',str)):(lit||num)?sp('t-lit',m):sp('t-pun',m));
+}
+function hlBash(l){
+  let first=true,sub=false;
+  return esc(l).replace(/("[^"]*"|'[^']*'|\s+|\S+)/g,tok=>{
+    if(/^\s+$/.test(tok))return tok;
+    if(/^("|')/.test(tok))return sp('t-str',tok);
+    if(tok==='--')return sp('t-op',tok);
+    if(/^&lt;.*&gt;$/.test(tok))return sp('t-ph',tok);
+    if(/^-/.test(tok))return sp('t-flag',tok);
+    if(first){first=false;sub=true;return sp('t-cmd',tok)}
+    if(sub){sub=false;return sp('t-sub',tok)}
+    return tok.replace(/(&lt;[^&]*&gt;)/g,x=>sp('t-ph',x));
+  });
+}
+function hlText(l){return esc(l).replace(/(\[[^\]]*\])/g,(x)=>sp('t-ph',x))}
+function highlight(t,lg){const f=lg==='json'?hlJson:lg==='bash'?hlBash:hlText;
+  return t.split('\n').map(l=>`<span class="ln">${f(l)||' '}</span>`).join('')}
+const VCACHE={},TTL=6*3600e3;
+const fmtVer=t=>{const m=/(\d+\.\d+\S*)$/.exec(t);return m?'v'+m[1]:t};
+async function gh(path){
+  const r=await fetch('https://api.github.com/repos/'+path,{headers:{Accept:'application/vnd.github+json'}});
+  if(r.status===404)return null;
+  if(!r.ok)throw new Error(r.status);
+  return r.json();
+}
+const REPO_RE=/^[A-Za-z0-9._-]{1,100}\/[A-Za-z0-9._-]{1,100}$/;
+function getVersion(repo){
+  if(!REPO_RE.test(repo))return Promise.resolve(null);
+  return VCACHE[repo]||(VCACHE[repo]=(async()=>{
+    let c=null;try{c=JSON.parse(localStorage.getItem('ver:'+repo))}catch(e){}
+    if(c&&Date.now()-c.t<TTL)return c.v;
+    let v=null;
+    try{
+      const r=await gh(repo+'/releases/latest');
+      if(r&&r.tag_name)v=r.tag_name;
+      else{const t=await gh(repo+'/tags?per_page=1');if(t&&t[0])v=t[0].name}
+    }catch(e){return c?c.v:null}
+    try{localStorage.setItem('ver:'+repo,JSON.stringify({v,t:Date.now()}))}catch(e){}
+    return v;
+  })());
+}
+function pills(){
+  $('#pills').innerHTML=TYPES.map(([k,l])=>`<button class="pill${k===cur?' on':''}" data-k="${k}">${l}</button>`).join('');
+  $('#pills').querySelectorAll('button').forEach(b=>b.onclick=()=>{cur=b.dataset.k;pills();render()});
+}
+function render(){
+  const q=query;
+  $('#list').innerHTML='';
+  items.filter(i=>(cur==='all'||i.type===cur)&&(i.title+i.desc+i.type).toLowerCase().includes(q)).forEach(i=>{
+    const envs=Object.keys(i.install);
+    const el=document.createElement('div');el.className='card'+(i.repo?' has-gh':'');
+    el.innerHTML=`${i.repo&&REPO_RE.test(i.repo)?`<a class="gh" href="https://github.com/${i.repo}" target="_blank" rel="noopener noreferrer" aria-label="${i.title} GitHub 저장소 열기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>`:''}<div class="labels"><span class="tag" tabindex="0" data-tip="${(INFO[i.type]||[0,''])[1]}">${(INFO[i.type]||[i.type])[0]}</span>${i.source==='third-party'?'<span class="warn" tabindex="0" data-tip="Anthropic이 만든 게 아니라 외부 개발자가 만든 도구예요. 설치하면 그 코드가 내 컴퓨터에서 실행되니, 설치 전에 만든 사람과 인기도를 확인하세요.">⚠ 비공식 · 설치 전 확인</span>':''}</div><b class="title">${i.title}<span class="ver"></span></b><p>${i.desc}</p>
+      <div class="row"><div class="tabs"${envs.length<2?' hidden':''}>${envs.map((e,n)=>`<button class="tab${n?'':' on'}" data-e="${e}">${e}</button>`).join('')}</div>
+      <button class="copy" aria-label="설치 문구 복사"><svg class="ic-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V4A1.8 1.8 0 0 0 8.7 2.2H4A1.8 1.8 0 0 0 2.2 4v4.7A1.8 1.8 0 0 0 4 10.5h1.5"/></svg><svg class="ic-ok" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="lbl">복사</span></button></div><div class="code"><div class="code-bar"><i></i><i></i><i></i><span class="lang"></span></div><pre></pre></div>`;
+    const pre=el.querySelector('pre');let env=envs[0];
+    const bar=el.querySelector('.lang');
+    const show=()=>{const t=i.install[env],lg=lang(t);bar.textContent=lg;pre.innerHTML=highlight(t,lg)};show();
+    el.querySelectorAll('.tab').forEach(t=>t.onclick=()=>{
+      env=t.dataset.e;el.querySelectorAll('.tab').forEach(x=>x.classList.toggle('on',x===t));show();
+    });
+    el.querySelector('.copy').onclick=async e=>{
+      const btn=e.currentTarget,lbl=btn.querySelector('.lbl');
+      await navigator.clipboard.writeText(i.install[env]);
+      btn.classList.add('done');lbl.textContent='복사됨';
+      setTimeout(()=>{btn.classList.remove('done');lbl.textContent='복사'},1200);
+    };
+    if(i.repo&&!i.noVersion)getVersion(i.repo).then(v=>{const b=el.querySelector('.ver');if(b&&v)b.textContent=fmtVer(v)});
+    $('#list').appendChild(el);
+  });
+}
+fetch('data/items.json').then(r=>r.json()).then(d=>{items=d;pills();render()});
+$('#sf').onsubmit=e=>{e.preventDefault();query=$('#q').value.toLowerCase();render()};
+</script>
+</body>
+</html>
