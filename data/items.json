@@ -253,5 +253,23 @@
     "install": {
       "Claude Code": "/plugin marketplace add Jakeschincariol/youtube-agent-skill\n/plugin install youtube-agent"
     }
+  },
+  {
+    "id": "code-simplifier",
+    "type": "plugin",
+    "title": "code-simplifier",
+    "desc": "방금 작성하거나 수정한 코드를 기능은 그대로 두고 더 읽기 쉽고 일관되게 다듬어주는 에이전트예요.",
+    "install": {
+      "Claude Code": "/plugin install code-simplifier@claude-plugins-official"
+    }
+  },
+  {
+    "id": "commit-commands",
+    "type": "plugin",
+    "title": "commit-commands",
+    "desc": "커밋, 푸시, PR 만들기 같은 git 작업을 간단한 명령어 하나로 처리해줘요.",
+    "install": {
+      "Claude Code": "/plugin install commit-commands@claude-plugins-official"
+    }
   }
 ]
