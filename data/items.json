@@ -271,5 +271,16 @@
     "install": {
       "Claude Code": "/plugin install commit-commands@claude-plugins-official"
     }
+  },
+  {
+    "id": "comfy-mcp",
+    "type": "mcp",
+    "title": "ComfyUI MCP",
+    "desc": "AI가 내 컴퓨터의 ComfyUI(이미지·영상 생성 프로그램)를 직접 다루게 해요. 이미지 생성, 작업 흐름(워크플로우) 실행, 설치된 모델과 노드 검색을 시킬 수 있어요. ComfyUI와 comfy-cli가 미리 설치돼 있어야 해요.",
+    "install": {
+      "Claude Code": "pip install comfy-mcp \"comfy-cli>=1.14.0\"\nclaude mcp add comfy-mcp -e COMFY_BIN=/path/to/venv/bin/comfy -- comfy-mcp",
+      "Claude Desktop": "{\n  \"mcpServers\": {\n    \"comfy-mcp\": {\n      \"command\": \"comfy-mcp\",\n      \"env\": {\n        \"COMFY_BIN\": \"/path/to/venv/bin/comfy\"\n      }\n    }\n  }\n}"
+    },
+    "repo": "Comfy-Org/comfy-mcp"
   }
 ]
