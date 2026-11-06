@@ -139,14 +139,15 @@ let items=[],cur='all',query='';
 const INFO={
   plugin:['플러그인','Claude Code에 새 기능을 더해 주는 확장 프로그램이에요. 명령어 한 줄로 설치해요.'],
   mcp:['MCP','AI가 GitHub, Notion 같은 외부 도구를 직접 쓸 수 있게 연결해 주는 다리예요.'],
+  skill:['스킬','Claude에게 일하는 방법을 가르치는 설명서 폴더예요. 설치해 두면 Claude가 필요할 때 알아서 꺼내 써요.'],
   prompt:['프롬프트','AI에게 붙여넣어 쓰는 지시문 틀이에요. 복사해서 대화창에 넣고 [ ] 부분만 바꾸세요.']
 };
-const TYPES=[['all','전체'],['plugin','플러그인'],['mcp','MCP'],['prompt','프롬프트']];
+const TYPES=[['all','전체'],['plugin','플러그인'],['mcp','MCP'],['skill','스킬'],['prompt','프롬프트']];
 const $=s=>document.querySelector(s);
 const esc=t=>t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 const ea=t=>esc(String(t)).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 const sp=(c,t)=>`<span class="${c}">${t}</span>`;
-function lang(t){return /^\s*[{\[]/.test(t)?'json':/^\s*(\/|claude |npx |uvx |npm |pip |git )/.test(t)?'bash':'text'}
+function lang(t){return /^\s*[{\[]/.test(t)?'json':/^\s*(\/|claude |npx |uvx |uv |npm |pip |git |graphify |trail )/.test(t)?'bash':'text'}
 function hlJson(l){
   return esc(l).replace(/("[^"]*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?)|([{}\[\],])/g,
     (m,str,col,lit,num,pun)=>str?(col?sp('t-key',str)+sp('t-pun',col):sp('t-str',str)):(lit||num)?sp('t-lit',m):sp('t-pun',m));
@@ -168,27 +169,42 @@ function hlText(l){return esc(l).replace(/(\[[^\]]*\])/g,(x)=>sp('t-ph',x))}
 function highlight(t,lg){const f=lg==='json'?hlJson:lg==='bash'?hlBash:hlText;
   return t.split('\n').map(l=>`<span class="ln">${f(l)||' '}</span>`).join('')}
 const VCACHE={},TTL=6*3600e3;
+const REPO_RE=/^[A-Za-z0-9._-]{1,100}\/[A-Za-z0-9._-]{1,100}$/;
+const NPM_RE=/^(@[a-z0-9._~-]{1,100}\/)?[a-z0-9._~-]{1,100}$/;
+const PYPI_RE=/^[A-Za-z0-9._-]{1,100}$/;
 const fmtVer=t=>{const m=/(\d+\.\d+\S*)$/.exec(t);return m?'v'+m[1]:t};
-async function gh(path){
-  const r=await fetch('https://api.github.com/repos/'+path,{headers:{Accept:'application/vnd.github+json'}});
+const fmtDate=iso=>{const d=new Date(iso);return isNaN(d)?'':d.getFullYear()+'.'+String(d.getMonth()+1).padStart(2,'0')+'.'+String(d.getDate()).padStart(2,'0')};
+async function getJson(url,opt){
+  const r=await fetch(url,opt);
   if(r.status===404)return null;
   if(!r.ok)throw new Error(r.status);
   return r.json();
 }
-const REPO_RE=/^[A-Za-z0-9._-]{1,100}\/[A-Za-z0-9._-]{1,100}$/;
-function getVersion(repo){
-  if(!REPO_RE.test(repo))return Promise.resolve(null);
-  return VCACHE[repo]||(VCACHE[repo]=(async()=>{
-    let c=null;try{c=JSON.parse(localStorage.getItem('ver:'+repo))}catch(e){}
-    if(c&&Date.now()-c.t<TTL)return c.v;
-    let v=null;
-    try{
-      const r=await gh(repo+'/releases/latest');
-      if(r&&r.tag_name)v=r.tag_name;
-      else{const t=await gh(repo+'/tags?per_page=1');if(t&&t[0])v=t[0].name}
-    }catch(e){return c?c.v:null}
-    try{localStorage.setItem('ver:'+repo,JSON.stringify({v,t:Date.now()}))}catch(e){}
-    return v;
+/* 버전 출처 우선순위: npm/PyPI(패키지 최신판) → GitHub 릴리즈 → 없으면 표시 안 함 (태그는 순서가 믿을 수 없어 쓰지 않음) */
+async function lookup(i){
+  if(i.pkg&&i.pkg.npm&&NPM_RE.test(i.pkg.npm)){
+    const d=await getJson('https://registry.npmjs.org/'+i.pkg.npm.replace('/','%2F'));
+    const v=d&&d['dist-tags']&&d['dist-tags'].latest;
+    return v?{v,d:d.time&&d.time[v]}:null;
+  }
+  if(i.pkg&&i.pkg.pypi&&PYPI_RE.test(i.pkg.pypi)){
+    const d=await getJson('https://pypi.org/pypi/'+i.pkg.pypi+'/json');
+    return d&&d.info?{v:d.info.version,d:d.urls&&d.urls[0]&&d.urls[0].upload_time_iso_8601}:null;
+  }
+  if(i.repo&&REPO_RE.test(i.repo)){
+    const r=await getJson('https://api.github.com/repos/'+i.repo+'/releases/latest',{headers:{Accept:'application/vnd.github+json'}});
+    return r&&r.tag_name?{v:r.tag_name,d:r.published_at}:null;
+  }
+  return null;
+}
+function getVersion(i){
+  return VCACHE[i.id]||(VCACHE[i.id]=(async()=>{
+    let c=null;try{c=JSON.parse(localStorage.getItem('ver2:'+i.id))}catch(e){}
+    if(c&&Date.now()-c.t<TTL)return c.r;
+    let r;
+    try{r=await lookup(i)}catch(e){return c?c.r:null}
+    try{localStorage.setItem('ver2:'+i.id,JSON.stringify({r,t:Date.now()}))}catch(e){}
+    return r;
   })());
 }
 function pills(){
@@ -216,7 +232,7 @@ function render(){
       btn.classList.add('done');lbl.textContent='복사됨';
       setTimeout(()=>{btn.classList.remove('done');lbl.textContent='복사'},1200);
     };
-    if(i.repo&&!i.noVersion)getVersion(i.repo).then(v=>{const b=el.querySelector('.ver');if(b&&v)b.textContent=fmtVer(v)});
+    if((i.repo||i.pkg)&&!i.noVersion)getVersion(i).then(r=>{const b=el.querySelector('.ver');if(b&&r&&r.v)b.textContent=fmtVer(r.v)+(r.d&&fmtDate(r.d)?' · '+fmtDate(r.d):'')});
     $('#list').appendChild(el);
   });
 }

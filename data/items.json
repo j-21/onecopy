@@ -203,5 +203,55 @@
       "Claude Desktop": "{\n  \"mcpServers\": {\n    \"blender\": {\n      \"command\": \"uvx\",\n      \"args\": [\n        \"blender-mcp\"\n      ]\n    }\n  }\n}"
     },
     "repo": "ahujasid/mcp-for-blender"
+  },
+  {
+    "id": "emil-skills",
+    "type": "skill",
+    "title": "Emil Kowalski Skills",
+    "source": "third-party",
+    "repo": "emilkowalski/skills",
+    "desc": "화면을 만들 때 애니메이션과 디자인의 세부 완성도를 높여주는 스킬 모음이에요. 부드러운 움직임을 만들고, 어색한 움직임을 찾아 고치도록 도와줘요.",
+    "install": {
+      "터미널": "npx skills@latest add emilkowalski/skills"
+    }
+  },
+  {
+    "id": "graphify",
+    "type": "skill",
+    "title": "Graphify",
+    "source": "third-party",
+    "repo": "Graphify-Labs/graphify",
+    "pkg": {
+      "pypi": "graphifyy"
+    },
+    "desc": "프로젝트의 코드, 문서, PDF를 서로 연결된 지도(지식 그래프)로 만들어서, 파일을 일일이 뒤지지 않고 질문으로 찾게 해줘요. 코드 분석은 내 컴퓨터 안에서 처리되고, 문서·PDF·이미지는 AI 모델에 보내서 분석해요. Python 3.10 이상이 필요하고, 설치 후 Claude에서 /graphify . 를 입력해 써요.",
+    "install": {
+      "터미널": "uv tool install graphifyy\ngraphify install"
+    }
+  },
+  {
+    "id": "trail-code",
+    "type": "skill",
+    "title": "Trail-Code",
+    "source": "third-party",
+    "repo": "trailhq/Trail-Code",
+    "pkg": {
+      "npm": "@trailhq/trail-code"
+    },
+    "desc": "코딩 AI(Claude Code, Cursor, Codex)가 내 코드의 지도와 팀이 정한 결정을 기억하게 해줘요. 설치할 때 스크립트가 실행되고, 익명 사용 통계를 보내요(끌 수 있어요). 내 대화에서 배운 점도 파일로 저장해요.",
+    "install": {
+      "터미널": "npm install -g @trailhq/trail-code\ntrail init"
+    }
+  },
+  {
+    "id": "youtube-agent-skill",
+    "type": "skill",
+    "title": "YouTube Agent Skill",
+    "source": "third-party",
+    "repo": "Jakeschincariol/youtube-agent-skill",
+    "desc": "유튜브 채널 운영을 돕는 스킬 11개예요. 대본과 첫 문장(후크) 쓰기, 제목·썸네일 점검, 시청 유지율 분석, 쇼츠 뽑기 등을 시킬 수 있어요. 영상 업로드는 직접 해야 해요.",
+    "install": {
+      "Claude Code": "/plugin marketplace add Jakeschincariol/youtube-agent-skill\n/plugin install youtube-agent"
+    }
   }
 ]
