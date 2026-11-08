@@ -141,10 +141,10 @@
 <script>
 let items=[],cur='all',query='';
 const INFO={
-  plugin:['플러그인','Claude Code에 새 기능을 더해 주는 확장 프로그램이에요. 명령어 한 줄로 설치해요.'],
-  mcp:['MCP','AI가 GitHub, Notion 같은 외부 도구를 직접 쓸 수 있게 연결해 주는 다리예요.'],
-  skill:['스킬','Claude에게 일하는 방법을 가르치는 설명서 폴더예요. 설치해 두면 Claude가 필요할 때 알아서 꺼내 써요.'],
-  prompt:['프롬프트','AI에게 붙여넣어 쓰는 지시문 틀이에요. 복사해서 대화창에 넣고 [ ] 부분만 바꾸세요.']
+  plugin:['플러그인','스킬, MCP, 명령어 같은 기능을 한 번에 묶어 둔 꾸러미예요. 명령어 한 줄이면 설치돼요.'],
+  mcp:['MCP','AI에게 손과 발을 달아 주는 연결 통로예요. 연결하면 AI가 GitHub, 브라우저, Photoshop 같은 프로그램을 직접 다뤄요.'],
+  skill:['스킬','AI가 특정 일을 잘하도록 적어 둔 사용 설명서예요. 설치해 두면 필요할 때 AI가 알아서 꺼내 봐요.'],
+  prompt:['프롬프트','AI에게 시킬 말을 미리 써 둔 문장 틀이에요. 복사해서 대화창에 붙여넣고 [ ] 부분만 내 내용으로 바꾸세요.']
 };
 const TYPES=[['all','전체'],['plugin','플러그인'],['mcp','MCP'],['skill','스킬'],['prompt','프롬프트']];
 const $=s=>document.querySelector(s);
