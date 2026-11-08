@@ -24,7 +24,7 @@
     "id": "context7",
     "type": "plugin",
     "title": "context7",
-    "desc": "코딩할 때 쓰는 라이브러리(남이 만들어 둔 코드 도구 모음)의 최신 공식 설명서를 AI가 바로 찾아 읽게 해요.",
+    "desc": "코딩할 때 쓰는 라이브러리(남이 만들어 둔 코드 도구 모음)의 최신 공식 설명서를 AI가 바로 찾아 읽게 해요. (포함: MCP)",
     "install": {
       "Claude Code": "/plugin install context7@claude-plugins-official"
     },
@@ -34,7 +34,7 @@
     "id": "code-review",
     "type": "plugin",
     "title": "code-review",
-    "desc": "방금 고친 코드(바뀐 부분)나 PR(코드 수정 요청)에서 버그와 실수를 찾아줘요. 얼마나 꼼꼼히 볼지 단계를 골라 쓸 수 있어요.",
+    "desc": "방금 고친 코드(바뀐 부분)나 PR(코드 수정 요청)에서 버그와 실수를 찾아줘요. 얼마나 꼼꼼히 볼지 단계를 골라 쓸 수 있어요. (포함: 명령어)",
     "install": {
       "Claude Code": "/plugin install code-review@claude-plugins-official"
     }
@@ -43,7 +43,7 @@
     "id": "skill-creator",
     "type": "plugin",
     "title": "skill-creator",
-    "desc": "Claude에게 새 능력(스킬, 일하는 방법을 적어 둔 설명서)을 직접 만들고, 잘 되는지 시험하고 다듬게 도와줘요.",
+    "desc": "Claude에게 새 능력(스킬, 일하는 방법을 적어 둔 설명서)을 직접 만들고, 잘 되는지 시험하고 다듬게 도와줘요. (포함: 스킬)",
     "install": {
       "Claude Code": "/plugin install skill-creator@claude-plugins-official"
     }
@@ -52,7 +52,7 @@
     "id": "superpowers",
     "type": "plugin",
     "title": "superpowers",
-    "desc": "아이디어 정리, 계획 세우기, 오류 원인 찾기, 테스트 먼저 만들기처럼 개발 작업의 좋은 순서를 Claude가 따르게 해줘요.",
+    "desc": "아이디어 정리, 계획 세우기, 오류 원인 찾기, 테스트 먼저 만들기처럼 개발 작업의 좋은 순서를 Claude가 따르게 해줘요. (포함: 스킬, 훅)",
     "install": {
       "Claude Code": "/plugin install superpowers@claude-plugins-official"
     }
@@ -61,7 +61,7 @@
     "id": "claude-code-setup",
     "type": "plugin",
     "title": "claude-code-setup",
-    "desc": "내 프로젝트를 살펴보고, Claude Code에 설정하면 좋을 자동화(자동 실행 규칙, 도우미, 연결 도구)를 추천해줘요.",
+    "desc": "내 프로젝트를 살펴보고, Claude Code에 설정하면 좋을 자동화(자동 실행 규칙, 도우미, 연결 도구)를 추천해줘요. (포함: 스킬)",
     "install": {
       "Claude Code": "/plugin install claude-code-setup@claude-plugins-official"
     }
@@ -70,7 +70,7 @@
     "id": "frontend-design",
     "type": "plugin",
     "title": "frontend-design",
-    "desc": "화면(UI)을 만들 때 어디서 본 듯한 평범한 디자인 대신, 의도가 담긴 디자인이 나오도록 방향을 잡아줘요.",
+    "desc": "화면(UI)을 만들 때 어디서 본 듯한 평범한 디자인 대신, 의도가 담긴 디자인이 나오도록 방향을 잡아줘요. (포함: 스킬)",
     "install": {
       "Claude Code": "/plugin install frontend-design@claude-plugins-official"
     }
@@ -79,7 +79,7 @@
     "id": "feature-dev",
     "type": "plugin",
     "title": "feature-dev",
-    "desc": "새 기능을 만들 때 기존 코드를 먼저 파악하고, 설계를 정한 다음 단계별로 만들도록 이끌어줘요.",
+    "desc": "새 기능을 만들 때 기존 코드를 먼저 파악하고, 설계를 정한 다음 단계별로 만들도록 이끌어줘요. (포함: 명령어, 에이전트)",
     "install": {
       "Claude Code": "/plugin install feature-dev@claude-plugins-official"
     }
@@ -88,7 +88,7 @@
     "id": "pr-review-toolkit",
     "type": "plugin",
     "title": "pr-review-toolkit",
-    "desc": "PR(코드 수정 요청)을 올리기 전에, 전문 도우미 여러 명이 동시에 코드·테스트·에러 처리를 점검해줘요.",
+    "desc": "PR(코드 수정 요청)을 올리기 전에, 전문 도우미 여러 명이 동시에 코드·테스트·에러 처리를 점검해줘요. (포함: 명령어, 에이전트)",
     "install": {
       "Claude Code": "/plugin install pr-review-toolkit@claude-plugins-official"
     }
@@ -97,7 +97,7 @@
     "id": "hookify",
     "type": "plugin",
     "title": "hookify",
-    "desc": "'이런 행동은 하지 마'라고 말로 알려주면, Claude가 그 행동을 하기 전에 자동으로 막아주는 규칙(훅)을 만들어줘요.",
+    "desc": "'이런 행동은 하지 마'라고 말로 알려주면, Claude가 그 행동을 하기 전에 자동으로 막아주는 규칙(훅)을 만들어줘요. (포함: 스킬, 명령어, 에이전트, 훅)",
     "install": {
       "Claude Code": "/plugin install hookify@claude-plugins-official"
     }
@@ -106,7 +106,7 @@
     "id": "security-guidance",
     "type": "plugin",
     "title": "security-guidance",
-    "desc": "코드를 쓰거나 저장할 때 보안상 위험한 부분이 있으면 알려줘요.",
+    "desc": "코드를 쓰거나 저장할 때 보안상 위험한 부분이 있으면 알려줘요. (포함: 훅)",
     "install": {
       "Claude Code": "/plugin install security-guidance@claude-plugins-official"
     }
@@ -115,7 +115,7 @@
     "id": "serena",
     "type": "plugin",
     "title": "serena",
-    "desc": "코드를 글자가 아니라 함수·클래스 같은 단위로 이해해서, 큰 프로젝트에서도 필요한 부분만 정확히 찾고 고치게 해요.",
+    "desc": "코드를 글자가 아니라 함수·클래스 같은 단위로 이해해서, 큰 프로젝트에서도 필요한 부분만 정확히 찾고 고치게 해요. (포함: MCP)",
     "install": {
       "Claude Code": "/plugin install serena@claude-plugins-official"
     },
@@ -125,7 +125,7 @@
     "id": "microsoft-docs",
     "type": "plugin",
     "title": "microsoft-docs",
-    "desc": "Microsoft·Azure(마이크로소프트의 클라우드 서비스) 공식 문서와 예제 코드를 바로 검색해서 근거 있게 답해줘요.",
+    "desc": "Microsoft·Azure(마이크로소프트의 클라우드 서비스) 공식 문서와 예제 코드를 바로 검색해서 근거 있게 답해줘요. (포함: 스킬, MCP)",
     "install": {
       "Claude Code": "/plugin install microsoft-docs@claude-plugins-official"
     }
@@ -134,7 +134,7 @@
     "id": "remember",
     "type": "plugin",
     "title": "remember",
-    "desc": "작업하던 내용을 저장해 두었다가, 다음에 새로 시작해도 이어서 작업할 수 있게 해줘요.",
+    "desc": "작업하던 내용을 저장해 두었다가, 다음에 새로 시작해도 이어서 작업할 수 있게 해줘요. (포함: 스킬, 명령어, 훅)",
     "install": {
       "Claude Code": "/plugin install remember@claude-plugins-official"
     }
@@ -143,7 +143,7 @@
     "id": "chrome-devtools-mcp",
     "type": "plugin",
     "title": "chrome-devtools-mcp",
-    "desc": "AI가 크롬 브라우저를 직접 조작하고, 웹페이지의 오류나 느린 원인을 개발자 도구로 살펴보게 해요.",
+    "desc": "AI가 크롬 브라우저를 직접 조작하고, 웹페이지의 오류나 느린 원인을 개발자 도구로 살펴보게 해요. (포함: 스킬, MCP)",
     "install": {
       "Claude Code": "/plugin install chrome-devtools-mcp@claude-plugins-official"
     },
@@ -153,7 +153,7 @@
     "id": "claude-md-management",
     "type": "plugin",
     "title": "claude-md-management",
-    "desc": "CLAUDE.md(Claude가 항상 먼저 읽는 프로젝트 안내 메모)를 점검해 개선하고, 대화에서 배운 내용을 거기에 반영해줘요.",
+    "desc": "CLAUDE.md(Claude가 항상 먼저 읽는 프로젝트 안내 메모)를 점검해 개선하고, 대화에서 배운 내용을 거기에 반영해줘요. (포함: 스킬, 명령어)",
     "install": {
       "Claude Code": "/plugin install claude-md-management@claude-plugins-official"
     }
@@ -258,7 +258,7 @@
     "id": "code-simplifier",
     "type": "plugin",
     "title": "code-simplifier",
-    "desc": "방금 작성하거나 수정한 코드를 기능은 그대로 두고 더 읽기 쉽고 일관되게 다듬어주는 에이전트예요.",
+    "desc": "방금 작성하거나 수정한 코드를 기능은 그대로 두고 더 읽기 쉽고 일관되게 다듬어주는 에이전트예요. (포함: 에이전트)",
     "install": {
       "Claude Code": "/plugin install code-simplifier@claude-plugins-official"
     }
@@ -267,7 +267,7 @@
     "id": "commit-commands",
     "type": "plugin",
     "title": "commit-commands",
-    "desc": "커밋, 푸시, PR 만들기 같은 git 작업을 간단한 명령어 하나로 처리해줘요.",
+    "desc": "커밋, 푸시, PR 만들기 같은 git 작업을 간단한 명령어 하나로 처리해줘요. (포함: 명령어)",
     "install": {
       "Claude Code": "/plugin install commit-commands@claude-plugins-official"
     }
@@ -299,7 +299,7 @@
     "id": "playwright",
     "type": "plugin",
     "title": "playwright",
-    "desc": "AI가 브라우저를 직접 열어 페이지를 누르고, 입력하고, 화면을 캡처하게 해요. 만든 웹페이지가 제대로 동작하는지 자동으로 시험할 때 좋아요.",
+    "desc": "AI가 브라우저를 직접 열어 페이지를 누르고, 입력하고, 화면을 캡처하게 해요. 만든 웹페이지가 제대로 동작하는지 자동으로 시험할 때 좋아요. (포함: MCP)",
     "install": {
       "Claude Code": "/plugin install playwright@claude-plugins-official"
     },
@@ -309,7 +309,7 @@
     "id": "ralph-loop",
     "type": "plugin",
     "title": "ralph-loop",
-    "desc": "같은 작업을 끝났다고 할 때까지 Claude가 스스로 계속 반복하게 해줘요. 오래 걸리는 작업에 쓰지만 횟수 제한(--max-iterations)을 꼭 정해 두세요. 반복할수록 사용량이 늘어요.",
+    "desc": "같은 작업을 끝났다고 할 때까지 Claude가 스스로 계속 반복하게 해줘요. 오래 걸리는 작업에 쓰지만 횟수 제한(--max-iterations)을 꼭 정해 두세요. 반복할수록 사용량이 늘어요. (포함: 명령어, 훅)",
     "install": {
       "Claude Code": "/plugin install ralph-loop@claude-plugins-official"
     }
@@ -318,7 +318,7 @@
     "id": "plugin-dev",
     "type": "plugin",
     "title": "plugin-dev",
-    "desc": "나만의 플러그인(스킬, 훅, MCP 연결)을 만들 때 구조와 작성법을 단계별로 안내해줘요.",
+    "desc": "나만의 플러그인(스킬, 훅, MCP 연결)을 만들 때 구조와 작성법을 단계별로 안내해줘요. (포함: 스킬, 명령어, 에이전트)",
     "install": {
       "Claude Code": "/plugin install plugin-dev@claude-plugins-official"
     }
@@ -327,9 +327,19 @@
     "id": "claude-security",
     "type": "plugin",
     "title": "claude-security",
-    "desc": "내 코드의 보안 취약점을 여러 AI가 찾고, 찾은 것을 서로 검증한 뒤 수정 파일까지 만들어줘요. 내가 직접 만든 코드에 쓰는 걸 권장하고, 수정은 내가 확인하고 적용해요.",
+    "desc": "내 코드의 보안 취약점을 여러 AI가 찾고, 찾은 것을 서로 검증한 뒤 수정 파일까지 만들어줘요. 내가 직접 만든 코드에 쓰는 걸 권장하고, 수정은 내가 확인하고 적용해요. (포함: 스킬, 에이전트, 훅)",
     "install": {
       "Claude Code": "/plugin install claude-security@claude-plugins-official"
     }
+  },
+  {
+    "id": "document-skills",
+    "type": "plugin",
+    "title": "document-skills",
+    "desc": "Anthropic이 만든 문서 스킬 모음이에요. PDF, Word, PowerPoint, Excel 파일을 읽고 만들고 고치는 방법을 Claude가 알게 돼요. 예제 스킬 모음(example-skills)도 따로 있어요. (포함: 스킬)",
+    "install": {
+      "Claude Code": "/plugin marketplace add anthropics/skills\n/plugin install document-skills@anthropic-agent-skills"
+    },
+    "repo": "anthropics/skills"
   }
 ]
