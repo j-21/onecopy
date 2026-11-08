@@ -13,7 +13,7 @@
     --bg:#f5f5f7; --card:#ffffff; --fill:#f2f2f7; --code:#f5f5f7;
     --label:#1d1d1f; --label-2:#555555; --sep:#d2d2d7;
     --accent:#0071e3; --on-accent:#ffffff;
-    --warn-bg:#fff3cd; --warn-fg:#8a5a00;
+    --warn-bg:#fff3cd; --warn-fg:#8a5a00; --ok-bg:#e3f5e8; --ok-fg:#1d6b36;
     --tip-bg:#1d1d1f; --tip-fg:#ffffff;
     --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px;
     --r-s:8px; --r-m:12px; --r-l:18px;
@@ -25,7 +25,7 @@
       --bg:#000000; --card:#1c1c1e; --fill:#2c2c2e; --code:#2c2c2e;
       --label:#f5f5f7; --label-2:#a1a1a6; --sep:#38383a;
       --accent:#0a84ff;
-      --warn-bg:#3a2e00; --warn-fg:#ffd60a;
+      --warn-bg:#3a2e00; --warn-fg:#ffd60a; --ok-bg:#0f2f1a; --ok-fg:#30d158;
       --tip-bg:#f5f5f7; --tip-fg:#1d1d1f;
     }
   }
@@ -69,6 +69,9 @@
   @media (max-width:700px){ #list{grid-template-columns:1fr} }
   .card{background:var(--card);border-radius:var(--r-l);padding:var(--s5);box-shadow:0 1px 2px rgba(0,0,0,.04),0 0 0 1px rgba(0,0,0,.04)}
   @media (prefers-color-scheme:dark){ .card{box-shadow:none} }
+  .card{transition:box-shadow .2s ease}
+  @media (hover:hover) and (pointer:fine){ .card:hover{box-shadow:0 0 0 1.8px var(--accent),0 6px 20px rgba(0,0,0,.08)} }
+  @media (prefers-reduced-motion:reduce){ .card{transition:none} }
   .labels{display:flex;flex-wrap:wrap;gap:var(--s2);margin-bottom:var(--s2)}
   .card{position:relative}
   .card.has-gh .labels{padding-right:6.5rem}
@@ -83,9 +86,10 @@
   .ver:empty{display:none}
   .title{display:block;font-size:1.25rem;line-height:1.2;font-weight:600;letter-spacing:-.01em}
   .card p{margin:var(--s2) 0 var(--s3);color:var(--label-2);font-size:.9375rem}
-  .tag,.warn{font-size:.75rem;font-weight:500;border-radius:var(--s2);padding:var(--s1) var(--s2)}
+  .tag,.warn,.ok{font-size:.75rem;font-weight:500;border-radius:var(--s2);padding:var(--s1) var(--s2)}
   .tag{background:var(--fill);color:var(--label-2)}
   .warn{background:var(--warn-bg);color:var(--warn-fg)}
+  .ok{background:var(--ok-bg);color:var(--ok-fg)}
   .row{display:flex;gap:var(--s2);align-items:center;justify-content:space-between}
   .tabs{min-width:0;display:inline-flex;gap:2px;padding:2px;background:var(--fill);border-radius:var(--r-m);max-width:100%;overflow-x:auto}
   .tabs[hidden]{display:none}
@@ -217,7 +221,7 @@ function render(){
   items.filter(i=>(cur==='all'||i.type===cur)&&(i.title+i.desc+i.type).toLowerCase().includes(q)).forEach(i=>{
     const envs=Object.keys(i.install);
     const el=document.createElement('div');el.className='card'+(i.repo?' has-gh':'');
-    el.innerHTML=`${i.repo&&REPO_RE.test(i.repo)?`<a class="gh" href="https://github.com/${i.repo}" target="_blank" rel="noopener noreferrer" aria-label="${ea(i.title)} GitHub 저장소 열기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>`:''}<div class="labels"><span class="tag" tabindex="0" data-tip="${ea((INFO[i.type]||[0,''])[1])}">${ea((INFO[i.type]||[i.type])[0])}</span>${i.source==='third-party'?'<span class="warn" tabindex="0" data-tip="Anthropic이 만든 게 아니라 외부 개발자가 만든 도구예요. 설치하면 그 코드가 내 컴퓨터에서 실행되니, 설치 전에 만든 사람과 인기도를 확인하세요.">⚠ 비공식 · 설치 전 확인</span>':''}</div><b class="title">${ea(i.title)}<span class="ver"></span></b><p>${ea(i.desc)}</p>
+    el.innerHTML=`${i.repo&&REPO_RE.test(i.repo)?`<a class="gh" href="https://github.com/${i.repo}" target="_blank" rel="noopener noreferrer" aria-label="${ea(i.title)} GitHub 저장소 열기"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>GitHub</a>`:''}<div class="labels"><span class="tag" tabindex="0" data-tip="${ea((INFO[i.type]||[0,''])[1])}">${ea((INFO[i.type]||[i.type])[0])}</span>${i.source==='third-party'?'<span class="warn" tabindex="0" data-tip="Anthropic이 만든 게 아니라 외부 개발자가 만든 도구예요. 설치하면 그 코드가 내 컴퓨터에서 실행되니, 설치 전에 만든 사람과 인기도를 확인하세요.">⚠ 비공식 · 설치 전 확인</span>':i.type!=='prompt'?'<span class="ok" tabindex="0" data-tip="Anthropic 공식 마켓플레이스나 공식 저장소에서 제공하는 도구예요.">✓ 공식</span>':''}</div><b class="title">${ea(i.title)}<span class="ver"></span></b><p>${ea(i.desc)}</p>
       <div class="row"><div class="tabs"${envs.length<2?' hidden':''}>${envs.map((e,n)=>`<button class="tab${n?'':' on'}" data-e="${ea(e)}">${ea(e)}</button>`).join('')}</div>
       <button class="copy" aria-label="설치 문구 복사"><svg class="ic-copy" viewBox="0 0 16 16" aria-hidden="true"><rect x="5.5" y="5.5" width="8" height="8" rx="1.8"/><path d="M10.5 5.5V4A1.8 1.8 0 0 0 8.7 2.2H4A1.8 1.8 0 0 0 2.2 4v4.7A1.8 1.8 0 0 0 4 10.5h1.5"/></svg><svg class="ic-ok" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3.2 3.2L13 4.8"/></svg><span class="lbl">복사</span></button></div><div class="code"><div class="code-bar"><i></i><i></i><i></i><span class="lang"></span></div><pre></pre></div>`;
     const pre=el.querySelector('pre');let env=envs[0];
