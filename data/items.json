@@ -341,5 +341,83 @@
       "Claude Code": "/plugin marketplace add anthropics/skills\n/plugin install document-skills@anthropic-agent-skills"
     },
     "repo": "anthropics/skills"
+  },
+  {
+    "id": "cli-anything",
+    "type": "plugin",
+    "title": "CLI-Anything",
+    "source": "third-party",
+    "repo": "HKUDS/CLI-Anything",
+    "desc": "GIMP, Blender 같은 프로그램을 AI가 명령어(CLI)로 직접 조작하게 해줘요. 아래 두 가지는 따로 쓰는 거라 필요한 쪽만 설치하면 돼요. ① Claude Code 플러그인: 프로그램의 소스 코드(만드는 데 쓴 원본 코드)를 읽어 그 프로그램용 명령어 도구를 새로 만들어줘요(/cli-anything 프로그램폴더). 성능 좋은 모델이 필요하고 윈도우는 Git for Windows가 있어야 해요. ② 터미널의 CLI-Hub: 이미 만들어진 도구를 골라 설치해요. 둘 다 Python 3.10 이상이 필요하고, 도구가 다루는 원래 프로그램(GIMP 등)도 컴퓨터에 따로 설치돼 있어야 해요. (포함: 명령어, 스킬)",
+    "install": {
+      "Claude Code": "/plugin marketplace add HKUDS/CLI-Anything\n/plugin install cli-anything",
+      "터미널": "pip install cli-anything-hub"
+    }
+  },
+  {
+    "id": "claude-video",
+    "type": "plugin",
+    "title": "claude-video (watch)",
+    "source": "third-party",
+    "repo": "bradautomates/claude-video",
+    "desc": "Claude가 영상을 '볼 수' 있게 해줘요. 영상 링크나 파일을 장면 사진과 대본(자막)으로 바꿔서 내용을 설명해줘요. Claude Code에서만 쓸 수 있고 Claude 채팅·Cowork에서는 안 돼요. 설치 후 Python 3.10 이상, FFmpeg, yt-dlp를 따로 깔아야 하는데, 처음 쓸 때 Claude에게 '필요한 도구를 확인하고 설치를 도와줘'라고 하면 안내해줘요. 구글 Gemini 키를 넣으면 영상이 구글로 전송되고, 키가 없으면 내 컴퓨터에서만 처리해요. 사진이 많으면 사용량이 늘어요. 쓸 때는 /watch:watch 로 실행해요. (포함: 스킬)",
+    "install": {
+      "Claude Code": "/plugin marketplace add bradautomates/claude-video\n/plugin install watch@claude-video"
+    }
+  },
+  {
+    "id": "skillspector",
+    "type": "skill",
+    "title": "SkillSpector",
+    "source": "third-party",
+    "repo": "NVIDIA/SkillSpector",
+    "desc": "NVIDIA가 만든 보안 검사 도구예요. 스킬이나 MCP를 설치하기 전에 위험한 지시(프롬프트 인젝션)나 정보 유출 위험이 숨어 있는지 미리 검사해줘요. Claude 안이 아니라 터미널(명령 입력 창)에서 쓰는 프로그램이고, uv와 Python 3.12 또는 3.13이 필요해요. 그냥 실행하면 검사 대상 파일 내용이 외부 AI 서비스로 전송되는 방식이라, 내 컴퓨터 안에서만 검사하려면 반드시 --no-llm 을 붙이세요. 이 방식은 검사가 덜 꼼꼼하고, '위험 없음'을 보장하지는 않아요.",
+    "install": {
+      "터미널": "uv tool install --python 3.13 git+https://github.com/NVIDIA/skillspector.git\nskillspector scan ./검사할폴더 --no-llm"
+    }
+  },
+  {
+    "id": "vibe-wise",
+    "type": "plugin",
+    "title": "vibe-wise",
+    "source": "third-party",
+    "repo": "nykooi1/vibe-wise",
+    "desc": "AI가 코드를 짜기 전에 내 설계 방향을 먼저 묻고, 짠 뒤에는 무엇을 왜 그렇게 썼는지 설명해줘요. 코딩을 맡기면서 배우고 싶은 사람에게 좋아요. 최신 Claude Code와 Python 3가 필요해요. 설치 후 Claude Code를 다시 켜고 /vibe-wise:learn 을 입력하면 시작돼요. 진행 기록은 프로젝트 폴더의 .vibe-wise 폴더에 저장돼요. (포함: 스킬, 명령어, 훅)",
+    "install": {
+      "Claude Code": "/plugin marketplace add nykooi1/vibe-wise\n/plugin install vibe-wise@vibe-wise"
+    }
+  },
+  {
+    "id": "ecc",
+    "type": "plugin",
+    "title": "ECC",
+    "source": "third-party",
+    "repo": "affaan-m/ECC",
+    "desc": "계획 세우기, 테스트 먼저 만들기, 코드 검토 같은 개발 작업용 도우미 72개와 스킬 300여 개를 한꺼번에 설치하는 대형 묶음이에요. 자동으로 실행되는 규칙(훅)도 함께 깔려서 사용량이 늘 수 있어요. Claude Code 2.1 이상이 필요하고, 설치 후 /plugin list 로 확인해요. 명령어는 /ecc:plan 처럼 앞에 ecc:를 붙여요. 같은 AI에 설치 방법을 두 가지 겹쳐 쓰면 중복되니 아래 두 줄만 쓰고, 공식 주소(affaan-m/ECC)로만 설치하세요. (포함: 스킬, 명령어, 에이전트, 훅)",
+    "install": {
+      "Claude Code": "/plugin marketplace add https://github.com/affaan-m/ECC\n/plugin install ecc@ecc"
+    }
+  },
+  {
+    "id": "understand-anything",
+    "type": "plugin",
+    "title": "Understand-Anything",
+    "source": "third-party",
+    "repo": "Egonex-AI/Understand-Anything",
+    "desc": "코드나 문서 묶음을 한눈에 볼 수 있는 연결 지도(지식 그래프)로 만들어서, 구조를 둘러보고 질문으로 찾게 해줘요. 설치 후 프로젝트 폴더에서 /understand 로 지도를 만들고 /understand-dashboard 로 화면을 열어요. 처음 만들 때는 프로젝트 전체를 분석해서 큰 프로젝트일수록 사용량이 많이 늘어요. 결과는 프로젝트 안의 .ua 폴더에 저장돼요. 파일이 바뀐 부분만 다시 분석해요. (포함: 스킬, 명령어, 에이전트)",
+    "install": {
+      "Claude Code": "/plugin marketplace add Egonex-AI/Understand-Anything\n/plugin install understand-anything"
+    }
+  },
+  {
+    "id": "compound-engineering",
+    "type": "plugin",
+    "title": "compound-engineering",
+    "source": "third-party",
+    "repo": "EveryInc/compound-engineering-plugin",
+    "desc": "아이디어 정리(/ce-brainstorm), 계획(/ce-plan), 작업(/ce-work), 검토(/ce-code-review), 배운 점 기록(/ce-compound)을 한 사이클로 반복하게 해주는 스킬 38개 묶음이에요. 배운 점은 프로젝트의 docs 폴더에 파일로 저장돼요. 설치 후 /ce-setup 을 먼저 실행하고, 뭘 써야 할지 모르면 /ce-help 를 물어보세요. /lfg 는 계획부터 커밋, 올리기(push), PR 만들기까지 알아서 하니 익숙해지기 전에는 쓰지 마세요. (포함: 스킬)",
+    "install": {
+      "Claude Code": "/plugin marketplace add EveryInc/compound-engineering-plugin\n/plugin install compound-engineering"
+    }
   }
 ]
