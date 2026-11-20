@@ -350,8 +350,11 @@
     "repo": "HKUDS/CLI-Anything",
     "desc": "GIMP, Blender 같은 프로그램을 AI가 명령어(CLI)로 직접 조작하게 해줘요. 아래 두 가지는 따로 쓰는 거라 필요한 쪽만 설치하면 돼요. ① Claude Code 플러그인: 프로그램의 소스 코드(만드는 데 쓴 원본 코드)를 읽어 그 프로그램용 명령어 도구를 새로 만들어줘요(/cli-anything 프로그램폴더). 성능 좋은 모델이 필요하고 윈도우는 Git for Windows가 있어야 해요. ② 터미널의 CLI-Hub: 이미 만들어진 도구를 골라 설치해요. 둘 다 Python 3.10 이상이 필요하고, 도구가 다루는 원래 프로그램(GIMP 등)도 컴퓨터에 따로 설치돼 있어야 해요. (포함: 명령어, 스킬)",
     "install": {
-      "Claude Code": "/plugin marketplace add HKUDS/CLI-Anything\n/plugin install cli-anything",
+      "Claude Code": "/plugin marketplace add HKUDS/CLI-Anything\n/plugin install cli-anything@cli-anything",
       "터미널": "pip install cli-anything-hub"
+    },
+    "pkg": {
+      "pypi": "cli-anything-hub"
     }
   },
   {
@@ -373,7 +376,7 @@
     "repo": "NVIDIA/SkillSpector",
     "desc": "NVIDIA가 만든 보안 검사 도구예요. 스킬이나 MCP를 설치하기 전에 위험한 지시(프롬프트 인젝션)나 정보 유출 위험이 숨어 있는지 미리 검사해줘요. Claude 안이 아니라 터미널(명령 입력 창)에서 쓰는 프로그램이고, uv와 Python 3.12 또는 3.13이 필요해요. 그냥 실행하면 검사 대상 파일 내용이 외부 AI 서비스로 전송되는 방식이라, 내 컴퓨터 안에서만 검사하려면 반드시 --no-llm 을 붙이세요. 이 방식은 검사가 덜 꼼꼼하고, '위험 없음'을 보장하지는 않아요.",
     "install": {
-      "터미널": "uv tool install --python 3.13 git+https://github.com/NVIDIA/skillspector.git\nskillspector scan ./검사할폴더 --no-llm"
+      "터미널": "uv tool install --python 3.13 git+https://github.com/NVIDIA/SkillSpector.git@v2.13.6\nskillspector scan ./검사할폴더 --no-llm"
     }
   },
   {
@@ -406,7 +409,7 @@
     "repo": "Egonex-AI/Understand-Anything",
     "desc": "코드나 문서 묶음을 한눈에 볼 수 있는 연결 지도(지식 그래프)로 만들어서, 구조를 둘러보고 질문으로 찾게 해줘요. 설치 후 프로젝트 폴더에서 /understand 로 지도를 만들고 /understand-dashboard 로 화면을 열어요. 처음 만들 때는 프로젝트 전체를 분석해서 큰 프로젝트일수록 사용량이 많이 늘어요. 결과는 프로젝트 안의 .ua 폴더에 저장돼요. 파일이 바뀐 부분만 다시 분석해요. (포함: 스킬, 명령어, 에이전트)",
     "install": {
-      "Claude Code": "/plugin marketplace add Egonex-AI/Understand-Anything\n/plugin install understand-anything"
+      "Claude Code": "/plugin marketplace add Egonex-AI/Understand-Anything\n/plugin install understand-anything@understand-anything"
     }
   },
   {
@@ -417,7 +420,7 @@
     "repo": "EveryInc/compound-engineering-plugin",
     "desc": "아이디어 정리(/ce-brainstorm), 계획(/ce-plan), 작업(/ce-work), 검토(/ce-code-review), 배운 점 기록(/ce-compound)을 한 사이클로 반복하게 해주는 스킬 38개 묶음이에요. 배운 점은 프로젝트의 docs 폴더에 파일로 저장돼요. 설치 후 /ce-setup 을 먼저 실행하고, 뭘 써야 할지 모르면 /ce-help 를 물어보세요. /lfg 는 계획부터 커밋, 올리기(push), PR 만들기까지 알아서 하니 익숙해지기 전에는 쓰지 마세요. (포함: 스킬)",
     "install": {
-      "Claude Code": "/plugin marketplace add EveryInc/compound-engineering-plugin\n/plugin install compound-engineering"
+      "Claude Code": "/plugin marketplace add EveryInc/compound-engineering-plugin\n/plugin install compound-engineering@compound-engineering-plugin"
     }
   }
 ]
