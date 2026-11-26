@@ -422,5 +422,16 @@
     "install": {
       "Claude Code": "/plugin marketplace add EveryInc/compound-engineering-plugin\n/plugin install compound-engineering@compound-engineering-plugin"
     }
+  },
+  {
+    "id": "pstack",
+    "type": "plugin",
+    "title": "pstack",
+    "source": "third-party",
+    "repo": "cursor/plugins",
+    "desc": "AI가 코드를 대충 짜지 않고, 원인을 확인하고 실제로 돌려서 검증하며 일하게 해주는 작업 방식 묶음이에요. Cursor에서 일하는 개발자(poteto)가 만들었고 Claude Code에서도 쓸 수 있어요. 설치 후 /pstack:setup-pstack 으로 모델과 생각 깊이를 고르고(선택 결과는 ~/.claude/rules/pstack-models.md 에 저장돼요), 꼼꼼해야 하는 작업은 /pstack:poteto-mode 뒤에 할 일을 적어요. 기본 설정은 높은 성능의 모델과 여러 에이전트를 써서 사용량이 많이 늘 수 있으니 처음에는 낮은 단계(small)를 권해요. poteto-mode는 팀 채팅 보내기나 티켓 수정 같은 외부 작업도 묻지 않고 진행하게 되어 있어요. 강제 push, 배포, 데이터 삭제, 고객 메시지는 먼저 멈추게 되어 있지만, 맡기고 자리를 비우는 방식은 익숙해진 뒤에 쓰세요. Cursor 전용 기능은 건너뛰어요. (포함: 스킬, 에이전트)",
+    "install": {
+      "Claude Code": "/plugin marketplace add cursor/plugins\n/plugin install pstack@cursor-plugins"
+    }
   }
 ]
